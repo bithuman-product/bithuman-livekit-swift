@@ -343,24 +343,26 @@ extension MixerEngineObserver {
 
     // Capture appAudio and apply conversion automatically suitable for internal audio engine.
     public func capture(appAudio inputBuffer: AVAudioPCMBuffer) {
+        // Manual-rendering mode never receives `engineWillConnectInput`
+        // from the WebRTC ADM (no real device), so the input graph stays
+        // unwired AND `playerNodeFormat` stays nil. The latter is what
+        // `converter(for:)` needs to build a converter — without it,
+        // every captured buffer would be dropped before we even reach
+        // the wire-up step. Lazy-wire FIRST so subsequent state reads
+        // (converter, isInputConnected) see the wired graph. Idempotent.
+        let (initiallyConnected, appNode) = _state.read {
+            ($0.isInputConnected, $0.appNode)
+        }
+        if !initiallyConnected, let engine = appNode.engine, engine.isInManualRenderingMode {
+            wireAppAudioPath()
+        }
+
         guard let converter = converter(for: inputBuffer.format) else {
             log("Failed to get converter for input buffer format: \(inputBuffer.format)", .warning)
             return
         }
 
         let buffer = converter.convert(from: inputBuffer)
-
-        let (initiallyConnected, appNode) = _state.read {
-            ($0.isInputConnected, $0.appNode)
-        }
-
-        // Manual-rendering mode never receives `engineWillConnectInput` from
-        // the WebRTC ADM (no real device), so the input graph stays unwired
-        // and every captured buffer would otherwise be dropped. Wire the
-        // path lazily on first capture; `wireAppAudioPath()` is idempotent.
-        if !initiallyConnected, let engine = appNode.engine, engine.isInManualRenderingMode {
-            wireAppAudioPath()
-        }
 
         let isInputConnected = initiallyConnected || _state.read { $0.isInputConnected }
         guard isInputConnected, let engine = appNode.engine, engine.isRunning else {
