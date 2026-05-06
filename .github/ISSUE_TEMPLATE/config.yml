@@ -1,0 +1,14 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Bug in upstream LiveKit Swift SDK
+    url: https://github.com/livekit/client-sdk-swift/issues
+    about: This repo is a fork. If your bug reproduces against livekit/client-sdk-swift, please file it upstream — they'll fix it faster and we'll pick it up on the next sync.
+  - name: LiveKit community
+    url: https://livekit.io/join-slack
+    about: General LiveKit usage questions are best answered in LiveKit's Slack.
+  - name: bitHuman support
+    url: mailto:support@bithuman.ai
+    about: Questions about how bitHuman uses this fork — email support.
+  - name: Security disclosure
+    url: https://github.com/bithuman-product/bithuman-livekit-swift/blob/main/SECURITY.md
+    about: Found a security issue? Please don't file a public issue. See SECURITY.md.
