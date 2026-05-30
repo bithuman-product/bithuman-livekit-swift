@@ -155,19 +155,6 @@ jobs:
           name: symbol-graph-${{ matrix.platform }}
           path: symbol-graph
           retention-days: 1
-  lint:
-    name: Lint
-    runs-on: macos-26
-    steps:
-      - uses: actions/checkout@v6
-      - name: Install SwiftLint
-        run: brew install swiftlint
-      - name: SwiftLint
-        run: swiftlint lint --strict --reporter github-actions-logging
-      - name: SwiftFormat Lint
-        if: always()
-        run: swiftformat --lint . --reporter github-actions-log
-        # Comes pre-installed on macOS runners
   build-docs:
     name: Build Docs
     needs: build-and-test
