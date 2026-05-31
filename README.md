@@ -10,7 +10,7 @@
 
 # iOS/macOS Swift SDK for LiveKit — bitHuman fork
 
-> **This is a fork** of [`livekit/client-sdk-swift`](https://github.com/livekit/client-sdk-swift) maintained by [bitHuman](https://www.bithuman.ai). It adds two things the upstream doesn't have yet: a **microphone-less app-audio path** (capture system / app audio without holding a hardware mic), and a small **IPC layer** for routing audio between sibling processes. Everything else tracks upstream releases — bring upstream issues there first.
+> **This is a fork** of [`livekit/client-sdk-swift`](https://github.com/livekit/client-sdk-swift) maintained by [bitHuman](https://www.bithuman.ai). It adds one thing the upstream doesn't have yet: a **microphone-less app-audio path** (capture system / app audio without holding a hardware mic), which builds on upstream's broadcast IPC for routing audio between sibling processes. Everything else tracks upstream releases — bring upstream issues there first.
 >
 > See [`CHANGELOG.md`](CHANGELOG.md) for what we've added on top of upstream. If your bug reproduces on `livekit/client-sdk-swift` too, please [file it upstream](https://github.com/livekit/client-sdk-swift/issues). If it only reproduces here, [file it on this fork](https://github.com/bithuman-product/bithuman-livekit-swift/issues) or email [security@bithuman.ai](mailto:security@bithuman.ai) for sensitive reports.
 
